@@ -1,0 +1,198 @@
+CREATE TABLE EMPLOYEE(
+ FNAME VARCHAR(30) NOT NULL,
+ MINIT VARCHAR(30) NOT NULL,
+ LNAME VARCHAR(30) NOT NULL,
+ SSN INT NOT NULL,
+ BDATE DATE NOT NULL,
+ ADDRESS VARCHAR(50) NOT NULL,
+ SEX CHAR NOT NULL,
+ SALARY INT NOT NULL,
+ SUPERSSN INT,
+ DNO INT NOT NULL
+);
+
+
+
+INSERT INTO EMPLOYEE
+VALUES
+('John', 'B', 'Smith', '123456789', '1965-01-09' , '731 Fondren,Houston, TX', 'M', '30000', '333445555', '5'),
+('Franklin', 'T', 'Wong', '333445555', '1965-12-08' , '638 Voss,Houston, TX', 'M', '40000', '888665555', '5'),
+('Alicia', 'J', 'Zelaya', '999887777', '1968-07-19' , '3321',Castle, Spring, TX', 'F', '25000', '987654321', '4'),
+('Jennifer', 'S', 'Wallace', '987654321', '1941-06-20' , '291 Berry, Bellaire, TX', 'F', '43000', '888665555', '4'),
+('Ramesh', 'K', 'Narayan', '666884444', '1962-09-15' , '975 Fire Oak, Humble, TX', 'F', '38000', '333445555', '5'),
+('Joyce', 'A', 'English', '453453453', '1972-07-31' , '5631 Rice,Houston, TX', 'F', '25000', '333445555', '5'),
+('Ahmad', 'V', 'Jabbar', '987987987', '1969-03-29' , '980 Dallas,Houston, TX', 'M', '25000', '987654321', '4');
+
+INSERT INTO EMPLOYEE(
+FNAME, MINIT, LNAME, SSN, BDATE, ADDRESS, SEX, SALARY, DNO)
+VALUES
+('James', 'E', 'Borg', '888665555', '1937-11-10' , '450 Stone,Houston, TX', 'M', '55000', '1');
+
+
+CREATE TABLE DEPT_LOCATIONS(
+ DNUMBER INT NOT NULL,
+ DLOCATION VARCHAR(30) NOT NULL
+);
+
+
+INSERT INTO DEPT_LOCATIONS
+VALUES
+('1', 'Houston'),
+('4', 'Stafford'),
+('5', 'Bellaire'),
+('5', 'Sugarlane'),
+('5', 'Houston');
+
+
+CREATE TABLE DEPARTMENT(
+ DNAME VARCHAR(30) NOT NULL,
+ DNUMBER INT NOT NULL,
+ MGRSSN INT NOT NULL,
+ MGRSTARTDATE DATE NOT NULL
+);
+
+
+INSERT INTO DEPARTMENT
+VALUES
+('Research', '5', '333445555', '1988-05-22'),
+('Administration', '4', '987654321', '1995-01-01'),
+('Headquarters', '1', '888665555', '1981-06-19');
+
+CREATE TABLE PROJECT(
+ PNAME VARCHAR(30) NOT NULL,
+ PNUMBER INT NOT NULL,
+ PLOCATION VARCHAR(30) NOT NULL,
+ DNUM INT NOT NULL
+);
+
+INSERT INTO PROJECT
+VALUES
+('ProductX', '1', 'Bellaire', '5'),
+('ProductY', '2', 'Sugarland', '5'),
+('ProductZ', '3', 'Houston', '5'),
+('Computerization', '10', 'Stafford', '4'),
+('Reorganization', '20', 'Houston', '1'),
+('Newbenefits', '30', 'Stafford', '4');
+
+CREATE TABLE WORKS_ON(
+ESSN INT NOT NULL,
+PNO INT NOT NULL,
+HOURS DECIMAL(3,1)
+);
+
+INSERT INTO WORKS_ON
+VALUES
+(123456789, 1, 32.5),
+(123456789, 2, 7.5),
+(666884444, 3, 40.0),
+(453453453, 1, 20.0),
+(453453453, 2, 20.0),
+(333445555, 2, 10.0),
+(333445555, 3, 10.0),
+(333445555, 10, 10.0),
+(333445555, 20, 10.0),
+(999887777, 30, 30.0),
+(999887777, 10, 10.0),
+(987987987, 10, 35.0),
+(987987987, 30, 5.0),
+(987654321, 30, 20.0),
+(987654321, 20, 15.0),
+(888665555, 20, null);
+
+CREATE TABLE DEPENDENT(
+ ESSN INT NOT NULL,
+ DEPENDENT_NAME VARCHAR(30) NOT NULL,
+ SEX CHAR NOT NULL,
+ BDATE DATE NOT NULL,
+ RELATIONSHIP VARCHAR(30) NOT NULL
+);
+
+INSERT INTO DEPENDENT
+VALUES
+(333445555, 'Alice', 'F', '1986-04-05', 'Daughter'),
+(333445555, 'Theodore', 'M', '1983-10-25', 'Son'),
+(333445555, 'Joy', 'F', '1958-05-03', 'Spouse'),
+(987654321, 'Abner', 'M', '1942-02-28', 'Spouse'),
+(123456789, 'Micheal', 'M', '1988-01-04', 'Son'),
+(123456789, 'Alice', 'F', '1988-12-30', 'Daughter'),
+(123456789, 'Elizabeth', 'F', '1967-05-05', 'Spouse');
+
+SELECT *
+FROM EMPLOYEE;
+
+SELECT *
+FROM DEPT_LOCATIONS;
+
+SELECT *
+FROM DEPARTMENT;
+
+SELECT *
+FROM WORKS_ON;
+
+SELECT *
+FROM PROJECT;
+
+SELECT *
+FROM DEPENDENT;
+
+-- Query 0: Retrieve the birthdate and address of the employee(s) whose name is ‘John B. Smith’
+SELECT BDATE, ADDRESS
+FROM EMPLOYEE
+WHERE FNAME='John' and MINIT='B' and Lname='Smith';
+
+-- Query 1: Retrieve the name and address of all employees who work for the ‘Research’ department.
+SELECT FNAME, LNAME, ADDRESS
+FROM EMPLOYEE
+ INNER JOIN DEPARTMENT
+ ON EMPLOYEE.DNO = DEPARTMENT.DNUMBER
+WHERE DNAME = 'Research';
+
+-- Query 2: For every project located in ‘Stafford’, list the project number, the controlling department number, and the department manager’s last name, address, and birthdate.
+SELECT PNUMBER, DNUM, LNAME, ADDRESS, BDATE
+FROM PROJECT, DEPARTMENT, EMPLOYEE
+WHERE DNUM = DNUMBER AND MGRSSN = SSN AND PLOCATION = 'Stafford';
+
+-- Query 3: Retrieve the name of each employee who works on all the projects controlled by department number 5.
+SELECT FNAME,LNAME,PNAME 
+FROM DEPARTMENT,EMPLOYEE,WORKS_ON,PROJECT 
+WHERE DNUM=5 AND DNUMBER = DNO   AND SSN = ESSN AND PNO = PNUMBER;
+
+-- Query 4: Make a list of all project numbers for projects that involve an employee whose last name is ‘Smith’, either as a worker or as a manager of the department that controls the project.
+ (SELECT DISTINCT PNUMBER
+ FROM PROJECT, DEPARTMENT, EMPLOYEE
+ WHERE DNUM = DNUMBER AND MGRSSN = SSN AND LNAME = 'Smith')
+UNION
+ (SELECT DISTINCT PNUMBER
+ FROM PROJECT, WORKS_ON, EMPLOYEE
+ WHERE PNUMBER = PNO AND ESSN = SSN AND LNAME = 'Smith');
+ 
+-- Query 5: Retrieve the names of all employees who have two or more dependents
+SELECT FNAME, MINIT, LNAME
+FROM EMPLOYEE
+WHERE (SELECT COUNT (*)
+FROM DEPENDENT
+WHERE EMPLOYEE.SSN = DEPENDENT.ESSN) >= 2;
+
+-- Query 6: Retrieve the names of employees who have no dependents.
+SELECT FNAME, MINIT, LNAME
+FROM EMPLOYEE
+WHERE (SELECT COUNT (*)
+FROM DEPENDENT
+WHERE EMPLOYEE.SSN = DEPENDENT.ESSN) = 0;
+
+-- Query 7: List the names of managers who have at least one dependent.
+SELECT FNAME, LNAME
+FROM EMPLOYEE
+WHERE EXISTS (SELECT *
+ FROM DEPENDENT
+ WHERE SSN = ESSN)
+ AND
+ EXISTS (SELECT *
+ FROM DEPARTMENT
+ WHERE SSN = MGRSSN);
+ 
+-- Query 8: For each employee, retrieve the employee’s name and the name of his or her immediate supervisor
+SELECT EMPLOYEE.FNAME, EMPLOYEE.LNAME, SUPERVISOR.FNAME,
+SUPERVISOR.LNAME
+FROM EMPLOYEE, EMPLOYEE AS SUPERVISOR
+WHERE EMPLOYEE.SUPERSSN = SUPERVISOR.SSN;
