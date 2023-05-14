@@ -1,0 +1,179 @@
+CREATE DATABASE practical07;
+
+USE practical07;
+
+CREATE TABLE Sales(
+sales_id INT PRIMARY KEY AUTO_INCREMENT,
+book_name VARCHAR(20),
+book_price DECIMAL(6,2),
+book_amount INT
+);
+
+DESC Sales;
+
+INSERT INTO Sales(
+book_name,book_price,book_amount)
+VALUES
+('DBMS', 1000.00 , 1),
+('DBMS', 1200.00 , 3),
+('PIT', 600.00 , 4),
+('DBMS', 1500.00 , 2),
+('PIT', 900.00 , 2),
+('JAVA', 2000.00 , 3);
+
+SELECT * FROM Sales;
+
+DROP TABLE Sales;
+
+
+Update
+============
+
+UPDATE Sales
+SET book_name="MIT"
+WHERE book_name="JAVA";
+
+SELECT * FROM Sales;
+------------------------------------------------------------------------------------
+
+ORDER BY Clause
+================
+
+SELECT * FROM Sales
+ORDER BY book_name;
+
+SELECT * FROM Sales
+ORDER BY book_name DESC;
+------------------------------------------------------------------------------------------
+
+GROUP BY Clause
+====================
+
+SELECT COUNT(sales_id),book_name
+FROM Sales
+GROUP BY book_name;
+
+SELECT book_price, COUNT(*)
+FROM Sales
+GROUP BY book_price;
+--------------------------------------------------------------------------------------------
+
+Having Clause
+==================
+
+SELECT COUNT(sales_id),book_name
+FROM Sales
+GROUP BY book_name
+HAVING COUNT(sales_id) > 2;
+
+SELECT COUNT(sales_id),book_name
+FROM Sales
+GROUP BY book_name
+HAVING COUNT(sales_id)> 2
+ORDER BY COUNT(CustomerID) DESC;
+--------------------------------------------------------------------------------------------
+
+
+CREATE TABLE Customer(
+CustomerID INT PRIMARY KEY AUTO_INCREMENT,
+CustomerName VARCHAR(20) NOT NULL,
+ContactName VARCHAR(20) NOT NULL,
+City VARCHAR(20) NOT NULL
+);
+
+DESC Customer;
+Drop table Customer;
+Drop table OrderTable;
+
+CREATE TABLE OrderTable(
+OrderID INT PRIMARY KEY,
+CustomerID INT,
+OrderDate DATE,
+FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID)
+);
+
+DESC OrderTable;
+
+INSERT INTO Customer(
+CustomerName,ContactName,City)
+VALUES
+('Jayani Bogaha','Isuru Pathirana','Colombo'),
+('Sandun Isuru','Sanduni Isara','Colombo'),
+('Piyumi Gamage','Gethmi Gamage','Matara'),
+('Nethma Samadhi','Samudi Ishara','Kandy')
+;
+
+SELECT * FROM Customer;
+
+INSERT INTO OrderTable(
+OrderID,CustomerID,OrderDate)
+VALUES
+(1111,5,'1995-09-18'),
+(1112,4,'1995-10-11'),
+(1113,1,'2000-01-02'),
+(1114,2,'2000-03-14'),
+(1115,3,'1992-12-05')
+;
+
+
+SET FOREIGN_KEY_CHECKS=0;
+SELECT * FROM OrderTable;
+
+MySQL Joins
+
+INNER JOIN
+==========
+
+SELECT Customer.CustomerName, OrderTable.OrderID
+FROM Customer
+INNER JOIN OrderTable
+ON Customer. CustomerID = OrderTable.CustomerID;
+
+SELECT Customer.CustomerName, OrderTable.OrderID
+FROM Customer
+INNER JOIN OrderTable
+ON Customer.CustomerID = OrderTable.CustomerID
+GROUP BY OrderDate;
+-----------------------------------------------------------------------
+
+LEFT JOIN
+===============
+
+SELECT Customer.CustomerName,Ordertable.OrderID
+FROM Customer
+LEFT JOIN OrderTable 
+ON Customer.CustomerID=OrderTable.CustomerID
+ORDER BY Customer.CustomerName;
+------------------------------------------------------------------------------------------
+
+
+CREATE TABLE Employees(
+EmployeeID INT PRIMARY KEY AUTO_INCREMENT,
+FirstName VARCHAR(20),
+LastName VARCHAR(20),
+BirthDate DATE
+);
+
+DESC Employees;
+DROP TABLE Employees;
+
+
+INSERT INTO Employees(
+FirstName,LastName,BirthDate)
+VALUES
+('Sanath','Peter','1995-8-12'),
+('Malshi','Sathsara','2000-2-13'),
+('Sumudu','Bandara','1993-12-18')
+;
+
+SELECT * FROM Employees;
+
+RIGHT JOIN
+=================
+
+SELECT OrderTable.OrderID, Employees.LastName, Employees.FirstName
+FROM OrderTable
+RIGHT JOIN Employees ON OrderTable.EmployeeID = Employees.EmployeeID
+ORDER BY OrderTable.Order;
+
+

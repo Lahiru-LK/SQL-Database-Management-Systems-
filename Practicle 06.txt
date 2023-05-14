@@ -1,0 +1,410 @@
+SHOW DATABASES;
+
+CREATE DATABASE maxtronic;
+
+SHOW DATABASES;
+
+USE maxtronic;
+
+SELECT USER FROM mysql.user;
+
+DROP USER MaxElectronics@localhost;
+
+CREATE USER admin_max@localhost identified by '123admin';
+CREATE USER emp_max@localhost identified by '123emp';
+CREATE USER user_max@localhost identified by '123user';
+
+GRANT ALL PRIVILEGES ON *.*
+TO 'admin_max'@'localhost'
+WITH GRANT OPTION;
+
+GRANT SELECT,INSERT,UPDATE,DELETE ON *.*
+TO 'emp_max'@'localhost'
+WITH GRANT OPTION;
+
+GRANT SELECT ON *.*
+TO 'user_max'@'localhost'
+WITH GRANT OPTION;
+
+
+CREATE TABLE item(
+itm_code CHAR(4) PRIMARY KEY NOT NULL,
+itm_description VARCHAR(25)NOT NULL,
+itm_unit_price DECIMAL(9,2) NOT NULL,
+itm_imported TINYINT(1) NULL,
+itm_supplier VARCHAR(20) NULL
+);
+
+DESC item;
+DROP TABLE item;
+
+
+INSERT INTO item(
+itm_code,itm_description,itm_unit_price,itm_imported,itm_supplier)
+VALUES
+('IT10','Television',24000.00,1,'Sony'),
+('IT11','Computer',60000.00,1,'Dell'),
+('IT12','Laser Printer','19000.00',1,'Hp'),
+('IT13','VCD Player','7599.00',1,''),
+('IT15','Polisher','12000.00',1,'National'),
+('IT16','Scanner','16000.00',NULL,'Hp'),
+('IT17','Refrigerator',65000.00,1,'LG'),
+('IT18','Table Lamp',2999.90,0,'Abans'),
+('IT19','Wall Clock','1200.00',1,''),
+('IT20','Blender','4800.00',1,'National'),
+('IT14','Oven',7300.00,0,'Abans')
+;
+
+SELECT * FROM item;
+
+DELETE FROM item;
+
+
+CREATE TABLE location(
+loc_code CHAR(4) PRIMARY KEY NOT NULL,
+loc_name VARCHAR (25) NOT NULL,
+loc_contact CHAR(11) NULL,
+loc_address VARCHAR(300) NULL
+);
+
+DESC location;
+DROP TABLE location;
+
+INSERT INTO location(
+loc_code,loc_name,loc_contact,loc_address)
+VALUES
+('L01','Colombo','0112946058','Colombo 04'),
+('L02','Kalutara','','Main Street'),
+('L03','Galle','0912546893',''),
+('L04','Matara','0415670045','Dharmapala Mawatha')
+;
+
+SELECT * FROM location;
+
+
+CREATE TABLE store(
+st_item_code CHAR(10)NOT NULL,
+st_location_code VARCHAR (10) NOT NULL,
+st_qty INT NOT NULL,
+st_date DATE NULL,
+FOREIGN KEY(st_item_code) REFERENCES item(itm_code),
+FOREIGN KEY(st_location_code) REFERENCES location(loc_code)
+);
+
+DESC store;
+DROP TABLE store;
+
+INSERT INTO store(
+st_item_code,st_location_code,st_qty,st_date)
+VALUES
+('IT10','L01',30,'2016-04-08'),
+('IT10','L03',3,'2016-04-02'),
+('IT10','L04',10,'2016-04-25'),
+('IT11','L01',25,NULL),
+('IT11','L02',12,'2016-05-07'),
+('IT13','L04',60,'2016-05-09'),
+('IT16','L02',5,NULL)
+;
+
+SELECT * FROM store;
+
+
+DROP TABLE store;
+
+
+2022.10.02
+----------------------------------------------------------
+
+SHOW DATABASES;
+
+SHOW TABLES;
+
+SELECT * FROM item;
+
+
+i)	DESC item;
+ii)	DESC location;
+iii)	DESC store
+
+
+CREATE TABLE sales(
+sa_trans_no INT AUTO_INCREMENT NOT NULL,
+sa_item_code VARCHAR (10) NOT NULL,
+sa_loction_code VARCHAR (10) NOT NULL,
+sa_sales_qty INT ,
+sa_date_of_sale DATE,
+PRIMARY KEY(sa_trans_no)
+);
+
+DESC sales;
+
+
+INSERT INTO sales(
+sa_item_code,sa_loction_code,sa_sales_qty,sa_date_of_sale)
+VALUES
+('IT10','L01',3,'2016-5-2'),
+('IT10','L03',1,'2016-5-12'),
+('IT13','L04',15,'2016-4-7'),
+('IT11','L01',12,'2016-4-15'),
+('IT11','L02',5,'2016-7-12')
+;
+
+SELECT * FROM sales;
+
+SELECT itm_description,itm_unit_price  
+FROM item;
+
+SELECT st_item_code
+FROM store; 
+
+SELECT  DISTINCT st_item_code
+FROM  store;
+
+SELECT SUM(st_qty)
+FROM store;
+
+SELECT * 
+FROM item
+ORDER BY itm_unit_price DESC
+LIMIT 5;
+
+SELECT itm_unit_price "most cheapest 3 items"
+FROM item
+ORDER BY itm_unit_price ASC
+LIMIT 3;
+
+SELECT itm_unit_price "cheapest items(DELL,HP,LG)"
+FROM item
+WHERE itm_supplier='Dell' OR itm_supplier='HP' OR itm_supplier='LG'
+ORDER BY itm_unit_price ASC
+LIMIT 1;
+
+
+SELECT * FROM item
+WHERE itm_unit_price > 20000; 
+
+SELECT * FROM item
+WHERE itm_code BETWEEN 'IT10' AND 'IT19';
+
+SELECT * FROM item
+WHERE itm_description LIKE '%er';
+
+SELECT * FROM item
+WHERE itm_description LIKE '%er%';
+
+SELECT * FROM item
+WHERE itm_code NOT BETWEEN 'IT10' AND 'IT19';
+
+
+SELECT itm_description
+FROM store
+WHERE st_location_code='L01' OR st_location_code='L04';
+
+
+-------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SHOW TABLES;
+
+DESC item;
+
+SELECT * FROM location;
+SELECT * FROM item;
+SELECT * FROM store;
+
+SELECT itm_description,itm_unit_price 
+FROM item
+;
+
+SELECT st_item_code
+FROM store
+;
+
+SELECT  DISTINCT *
+FROM  store;
+
+
+SELECT  DISTINCT *
+FROM  store;
+
+SELECT  DISTINCT st_item_code
+FROM  store;
+
+
+SELECT itm_description,itm_unit_price
+FROM item
+ORDER BY itm_unit_price DESC;
+
+
+SELECT st_item_code,st_qty
+FROM store
+ORDER BY st_item_code ASC,st_qty DESC;
+
+SELECT * FROM item
+WHERE itm_unit_price > 200000;
+
+
+SELECT st_item_code FROM store
+WHERE st_location_code = 'L01';
+
+
+
+SELECT itm_description FROM item
+WHERE itm_description LIKE 't%';
+
+SELECT itm_description FROM item
+WHERE itm_description LIKE '%er';
+
+
+SELECT itm_description FROM item
+WHERE itm_description LIKE '%er';
+
+
+SELECT * FROM item
+WHERE itm_supplier ='Dell' OR itm_supplier = 'HP' OR itm_supplier ='LG';
+
+
+SELECT itm_code,itm_description 
+FROM item
+WHERE itm_imported IS NOT NULL;
+
+SELECT itm_code,itm_description 
+FROM item
+WHERE itm_supplier=' ';
+
+
+
+
+SELECT DISTINCT itm_description,st_qty,loc_name
+FROM location,store,item
+WHERE itm_unit_price > 20000;
+
+
+
+SELECT DISTINCT st_item_code,loc_name,st_qty
+FROM location,store,item;
+
+
+SELECT DISTINCT itm_description 
+FROM location
+WHERE item.itm_code=store.st_item_code AND location.loc_code=store.st_location_code 
+AND (st_location_code='L01' OR st_location_code='L04');
+
+SELECT DISTINCT itm_description,itm_unit_price
+FROM location,item,store
+WHERE item.itm_code=store.st_item_code AND location.loc_code=store.st_location_code 
+AND (st_location_code='L01' OR st_location_code='L02')
+ORDER BY itm_unit_price DESC; 
+
+SELECT DISTINCT itm_description,itm_unit_price,loc_code
+FROM location,item,store
+WHERE item.itm_code=store.st_item_code AND location.loc_code=store.st_location_code 
+AND (st_location_code='L01' OR st_location_code='L02')
+ORDER BY loc_code DESC; 
+
+SELECT COUNT(loc_name)
+FROM location;
+
+SELECT SUM(sa_sales_qty)
+FROM sales
+WHERE sa_item_code='IT10';
+
+SELECT SUM(sa_sales_qty)
+FROM sales
+WHERE sa_item_code='IT10' AND sa_loction_code='L03';
+
+UPDATE sales 
+SET sa_sales_qty=30 
+WHERE sa_trans_no=1;
+
+UPDATE sales 
+SET sa_sales_qty=3 
+WHERE sa_trans_no=1;
+
+UPDATE sales 
+SET sa_sales_qty=1 
+WHERE sa_trans_no=2;
+
+ALTER TABLE sales
+ADD FOREIGN KEY(sa_location_code) REFERENCE location(loc_code);
+
+SELECT MAX(itm_unit_price)
+FROM item;
+
+SELECT MAX(itm_unit_price)
+FROM item;
+
+SELECT itm_description
+FROM item
+WHERE itm_unit_price=(SELECT MAX(itm_unit_price) FROM item);
+
+
+SELECT DISTINCT itm_description
+FROM item,sales
+WHERE item.itm_code=sales.sa_item_code AND(EXTRACT(YEAR FROM sa_date_of_sale))='2011' AND (EXTRACT(MONTH FROM sa_date_of_sale))='5';
+
+SELECT  ((itm_unit_price*5)-((itm_unit_price*5)*10/100)) "How many rupees have to be paid"
+FROM item
+WHERE itm_code='IT11';
+
+SELECT (itm_unit_price*st_qty)
+FROM item,store
+WHERE item.itm_code=store.st_item_code 
+AND st_item_code="IT11" AND st_location_code="L01";
+
+SELECT (itm_unit_price*st_qty)
+FROM item,store,location
+WHERE item.itm_code=store.st_item_code AND location.loc_code=store.st_location_code
+AND itm_code='IT10' AND loc_name='Colombo';
+
+UPDATE location 
+SET loc_name="Kalutara"
+WHERE loc_code='L02';
+
+UPDATE location 
+SET loc_name="Karapitiya"
+WHERE loc_code='L03';
+
+UPDATE item
+SET itm_unit_price=itm_unit_price+500
+WHERE itm_code='IT11' OR itm_code='IT10';
+
+SELECT itm_code,itm_description
+FROM item
+WHERE itm_supplier IS NOT NULL;
+
+SELECT itm_description,loc_name,st_qty
+FROM item,location,store
+WHERE item.itm_code=store.st_item_code AND location.loc_code=store.st_location_code
+AND (itm_supplier IS NULL);
+
+SELECT st_location_code,SUM(st_qty)
+FROM store
+GROUP BY st_location_code;
+
+SELECT loc_name,SUM(st_qty)
+FROM location,store
+WHERE location.loc_code=store.st_location_code
+GROUP BY st_location_code;
+
+SELECT itm_description,SUM(st_qty),itm_unit_price,(itm_unit_price*sum(st_qty))
+FROM item,store
+WHERE item.itm_code=store.st_item_code
+GROUP BY itm_code;
+
+SELECT itm_description,SUM(st_qty)
+FROM item,store
+WHERE item.itm_code=store.st_item_code
+GROUP BY itm_code; 
