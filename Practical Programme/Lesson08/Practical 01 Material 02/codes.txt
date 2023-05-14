@@ -1,0 +1,77 @@
+CREATE DATABASE TG749;
+
+SHOW DATABASES;
+
+USE tg749;
+
+
+CREATE TABLE StudentDetails(Registration_No VARCHAR(11) NOT NULL,
+Name VARCHAR(50),
+Major VARCHAR(3),
+Contact_No VARCHAR(11),
+PRIMARY KEY(Registration_No)
+);
+
+
+ DESC  StudentDetails;
+
+
+SHOW TABLES;
+
+
+INSERT INTO studentdetails(Registration_No,Name,Major,Contact_No)
+VALUES
+('RUH/TEC/001','A.V. Jayantha','ICT','071-2233568'),
+('RUH/TEC/002','K.J. Perera','ICT','077-4567891'),
+('RUH/TEC/003','L.D. Teena','BST','078-5962348'),
+('RUH/TEC/004','N. Dickwella','BST','075-3286954'),
+('RUH/TEC/005','S. Matharaarchchi','ENT','071-4568927');
+
+
+SELECT * FROM studentdetails;
+
+
+CREATE TABLE OrderDetails(Order_ID INT AUTO_INCREMENT NOT NULL,
+Registration_No VARCHAR(11),
+Book_ID VARCHAR(20),
+Book_Title VARCHAR(100),
+PRIMARY KEY(Order_ID)
+);
+
+
+DESC  OrderDetails;
+
+
+
+DELETE FROM OrderDetails;
+
+
+DROP TABLE OrderDetails;
+
+
+SELECT * FROM  OrderDetails;
+
+
+
+INSERT INTO OrderDetails(Registration_No,Book_ID,Book_Title)
+VALUES
+('RUH/TEC/001','483.45.ICT','Fundamentals of ICT'),
+('RUH/TEC/001','123.89.NOV','Madoldoowa'),
+('RUH/TEC/002','332.63.PHY','Fundamentals of Physics'),
+('RUH/TEC/003','568.32.MAT','Trigonometry'),
+('RUH/TEC/004','568.33.MAT','Matrics'),
+('RUH/TEC/005','332.65.PHY','Vectors and Motion'),
+('RUH/TEC/005','123.89.NOV','Madoldoowa'),
+('RUH/TEC/002','483.45.ICT','Operrating Systems'),
+('RUH/TEC/001','332.63.PHY','Fundamentals of Physics'),
+('RUH/TEC/003','123.90.NOV','Gamperaliya');
+
+
+
+
+
+ 
+
+
+
+

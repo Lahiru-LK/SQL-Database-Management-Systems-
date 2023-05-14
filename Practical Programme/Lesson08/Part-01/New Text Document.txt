@@ -1,0 +1,142 @@
+CREATE DATABASE Practical_04;
+
+SHOW DATABASES;
+
+USE Practical_04;
+
+CREATE TABLE StudenetDetails(
+Reg_no VARCHAR(20) NOT NULL PRIMARY KEY,
+Name VARCHAR(20) NOT  NULL,
+Major VARCHAR(20) NOT  NULL,
+Age INT NOT  NULL,
+Contact_No VARCHAR(20) NOT  NULL
+);
+
+DESC StudenetDetails;
+
+
+INSERT INTO StudenetDetails
+(Reg_no,Name,Major,Age,Contact_No)
+VALUES
+("RUH/TEC/001","A.V. Jayantha","ICT",23,"071-2233568"), 
+("RUH/TEC/002","K.J. Perera","ICT",25,"077-4567891"), 
+("RUH/TEC/003","L.D. Teena","BST",26,"078-5962348"), 
+("RUH/TEC/004","N. Dickwella","BST",22,"075-3286954"), 
+("RUH/TEC/005","S. Matharaarchchi","ENT",24,"071-4568927"), 
+("RUH/TEC/006","K.Rajitha","ENT",22,"071-9825693")
+; 
+
+
+SELECT * FROM StudenetDetails;
+
+
+CREATE TABLE ICT_Marks(
+9ID INt  AUTO_INCREMENT NOT NULL PRIMARY KEY,
+Marks INt NOT  NULL,
+Student_ID VARCHAR(20) NOT NULL,
+FOREIGN KEY (Student_ID) REFERENCES StudenetDetails(Reg_no)
+);
+
+
+DESC ICT_Marks;
+
+
+INSERT INTO ICT_Marks
+(Marks,Student_ID)
+VALUES
+(78,"RUH/TEC/001"),
+(50,"RUH/TEC/002"),
+(69,"RUH/TEC/003"),
+(85,"RUH/TEC/004"),
+(92,"RUH/TEC/005"),
+(23,"RUH/TEC/006")
+; 
+
+SELECT * FROM ICT_Marks;
+------------------------------------------------------------------------------------------
+
+SELECT MIN(Marks)
+FROM ICT_Marks;
+
+SELECT MAX(Marks)
+FROM ICT_Marks;
+
+
+SELECT SUM(Marks)
+FROM ICT_Marks;
+
+
+SELECT COUNT(Reg_no)
+FROM StudenetDetails;
+
+SELECT COUNT(Marks)
+FROM ICT_Marks
+WHERE Marks>50;
+
+SELECT AVG(Marks)
+FROM ICT_Marks;
+
+
+
+SELECT MIN(Age)
+FROM StudenetDetails;
+
+SELECT MAX(Age)
+FROM StudenetDetails;
+
+SELECT SUM(Age)
+FROM StudenetDetails;
+
+SELECT AVG(Age)
+FROM StudenetDetails;
+
+SELECT COUNT(Age)
+FROM StudenetDetails;
+
+SELECT ISNULL(NULL);
+SELECT ISNULL(1);
+
+
+SELECT GREATEST(81,50,15);
+SELECT LEAST(81,50,15);
+
+SELECT ROUND(10.56);
+SELECT ROUND(10.56,1);
+
+SELECT MOD(21,7);
+SELECT MOD(56,(3*2));
+
+SELECT CEIL(65.3);
+SELECT CEIL(65.7);
+
+SELECT FLOOR(65.3);
+SELECT FLOOR(65.7);
+
+
+SELECT ABS(-10);
+SELECT ABS(10);
+
+SELECT CONCAT(“Hello ” , ”World….!!!”);
+SELECT CONCAT (“Hello ” , NULL, ”World….!!!”);
+
+SELECT CURDATE();
+
+SELECT YEAR('1997-12-25');
+SELECT MONTH('1997-12-25');
+SELECT DAY('1997-12-25');
+SELECT YEAR(CURDATE());
+
+SELECT DISTINCT(Major)
+FROM StudenetDetails;
+
+SELECT Reg_No AS Registration_No FROM StudenetDetails;
+
+SELECT Reg_No,Name,Marks from StudenetDetails,ICT_Marks
+WHERE StudenetDetails.Reg_No=ICT_Marks.Student_ID;
+
+SELECT a.Reg_No,a.Name,b.Marks FROM StudenetDetails AS a,ICT_Marks AS  b 
+WHERE a.Reg_No=b.Student_ID 
+AND a.Reg_No="RUH/TEC/001";
+
+SELECT Reg_No As Registration_No, Name AS Student_Name, Age FROM StudenetDetails;
+
