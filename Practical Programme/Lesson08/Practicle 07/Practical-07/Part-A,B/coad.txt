@@ -1,0 +1,193 @@
+CREATE DATABASE practical07_B;
+
+USE practical07_B;
+
+CREATE TABLE EMPLOYEE (
+EMPLOYEE_ID INT PRIMARY KEY,
+FIRST_NAME VARCHAR(20),
+LAST_NAME VARCHAR(20),
+EMAIL VARCHAR(40),
+PHONE_NUMBER VARCHAR(20),
+HIRE_DATE DATE,
+JOB_ID VARCHAR(10),
+SALARY DECIMAL(8,2),
+COMMISSION_PCT DECIMAL(6,2),
+MANAGER_ID INT,
+DEPARTMENT_ID INT);
+
+
+
+CREATE TABLE CUST (
+CUST_CODE VARCHAR(10) PRIMARY KEY,
+CUST_NAME VARCHAR(20),
+CUST_CITY VARCHAR(20),
+WORKING_AREA VARCHAR(20),
+CUST_COUNTRY VARCHAR(20),
+GRADE INT,
+OPENING_AMT DECIMAL(8,2),
+RECEIVE_AMT DECIMAL(8,2),
+PAYMENT_AMT DECIMAL(8,2),
+OUTSTANDING_AMT DECIMAL(8,2),
+PHONE_NO VARCHAR(15),
+AGENT_CODE VARCHAR(10)
+);
+
+
+CREATE TABLE SALESMAN (
+SALESMAN_ID INT PRIMARY KEY,
+NAME VARCHAR(30),
+CITY VARCHAR(20),
+COMMISSION DECIMAL(4,4)
+);
+
+CREATE TABLE CUSTOMER (
+CUSTOMER_ID INT PRIMARY KEY,
+CUST_NAME VARCHAR(30),
+CITY VARCHAR(20),
+GRADE INT,
+SALESMAN_ID INT,
+FOREIGN KEY(SALESMAN_ID) REFERENCES SALESMAN(SALESMAN_ID)
+);
+
+INSERT INTO EMPLOYEE(EMPLOYEE_ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUMBER,HIRE_DATE,JOB_ID,SALARY,COMMISSION_PCT,MANAGER_ID,DEPARTMENT_ID) 
+VALUES
+(100,"Steven","King","SKING","515.123.4567","1987-06-17","AD_PRES",24000.00,0.00,0,90),
+(101,"Neena","Kochhar","NKOCHHAR","515.123.4568","1987-06-18","AD_VP",17000.00,0.00,100,90),
+(102,"Lex","De Haan","LDEHAAN","515.123.4569","1987-06-19","AD_VP",17000.00,0.00,100,90),
+(103,"Alexander","Hunold","AHUNOLD","590.423.4567","1987-06-20","IT_PROG",9000.00,0.00,102,60),
+(104,"Bruce","Ernst","BERNST","590.423.4568","1987-06-21","IT_PROG",6000.00,0.00,103,60),
+(105,"David","Austin","DAUSTIN","590.423.4569","1987-06-22","IT_PROG",4800.00,0.00,103,60),
+(106,"Valli","Pataballa","VPATABAL","590.423.4560","1987-06-23","IT_PROG",4800.00,0.00,103,60),
+(107,"Diana","Lorentz","DLORENTZ","590.423.5567","1987-06-24","IT_PROG",4200.00,0.00,103,60);
+
+
+INSERT INTO CUST (CUST_CODE,CUST_NAME,CUST_CITY,WORKING_AREA,CUST_COUNTRY,GRADE,OPENING_AMT,RECEIVE_AMT,PAYMENT_AMT,OUTSTANDING_AMT,PHONE_NO,AGENT_CODE)
+VALUES
+('C00013','Holmes','London','London','UK',2,6000.00,5000.00,7000.00,4000.00,'BBBBBBB','A003'),
+('C00001','Micheal','New York','New York','USA',2,3000.00,5000.00,2000.00,6000.00,'CCCCCCC','A008'),
+('C00020','Albert','New York','New York','USA',3,5000.00,7000.00,6000.00,6000.00,'BBBBSBB','A008'),
+('C00025','Ravindran','Bangalore','Bangalore','India',2,5000.00,7000.00,4000.00,8000.00,'AVAVAVA','A011'),
+('C00024','Cook','London','London','UK',2,4000.00,9000.00,7000.00,6000.00,'FSDDSDF','A006'),
+('C00015','Stuart','London','London','UK',1,6000.00,8000.00,3000.00,11000.00,'GFSGERS','A003'),
+('C00002','Bolt','New York','New York','USA',3,5000.00,7000.00,9000.00,3000.00,'DDNRDRH','A008'),
+('C00018','Fleming','Brisban','Brisban','Australia',2,7000.00,7000.00,9000.00,5000.00,'NHBGVFC','A005'),
+('C00021','Jacks','Brisban','Brisban','Australia',1,7000.00,7000.00,7000.00,7000.00,'WERTGDF','A005'),
+('C00019','Yearannaidu','Chennai','Chennai','India',1,8000.00,7000.00,7000.00,8000.00,'ZZZZBFV','A010');
+
+INSERT INTO SALESMAN(SALESMAN_ID,NAME,CITY,COMMISSION) 
+VALUES
+(5001,"James Hoog","New York",0.15),
+(5002,"Nail Knite","Paris",0.13),
+(5005,"Pit Alex","London",0.11),
+(5006,"Mc Lyon","Paris",0.14),
+(5007,"Paul Adam","Rome",0.13),
+(5003,"Lauson Hen","San Jose",0.12);
+
+INSERT INTO CUSTOMER(CUSTOMER_ID,CUST_NAME,CITY,GRADE,SALESMAN_ID) 
+VALUES
+(3002,"Nick Rimando","New York",100,5001),
+(3007,"Brad Davis","New York",200,5001),
+(3005,"Graham Zusi","California",200,5002),
+(3008,"Julian Green","London",300,5002),
+(3004,"Fabian Johnson","Paris",300,5006),
+(3009,"Geoff Cameron","Berlin",100,5003),
+(3003,"Jozy Altidor","Moscow",200,5007),
+(3001,"Brad Guzan","London",0,5005);
+
+SELECT * FROM EMPLOYEE;
+SELECT * FROM CUST;
+SELECT * FROM SALESMAN;
+SELECT * FROM CUSTOMER;
+
+
+1) UPDATE employee 
+SET email='not available' 
+WHERE email IS NOT NULL;
+
+2) UPDATE employee 
+SET email='not available', COMMISSION_PCT='0.10' 
+WHERE email IS NOT NULL;
+
+3) UPDATE employee 
+SET email='not available', COMMISSION_PCT='0.10' 
+WHERE DEPARTMENT_ID=110;
+
+4) UPDATE employee 
+SET email='not available' 
+WHERE department_id=80 AND COMMISSION_PCT<0.20;
+
+5) UPDATE employee 
+SET email='not available' 
+WHERE department_id=90;
+
+6) UPDATE employee
+SET SALARY=8000.00 
+WHERE EMPLOYEE_ID=105 AND salary < 5000.00;
+
+7) SELECT first_name, last_name, department_id
+FROM employee
+WHERE Department_id=30 OR Department_id=100 
+ORDER BY department_id ASC;
+
+8) SELECT concat(first_name, last_name) 
+FROM employee 
+WHERE hire_date BETWEEN '1987-01-31' AND '1987-12-31';
+
+9) SELECT job_id 
+FROM Employee 
+ORDER BY job_id DESC;
+
+10) SELECT CONCAT(FIRST_NAME,LAST_NAME) AS name,salary, salary*15/100 AS PF
+FROM Employee 
+ORDER BY CONCAT(first_name,last_name) ASC;
+
+11) SELECT last_name
+ FROM employee 
+WHERE last_name LIKE '__e%';
+
+12) SELECT cust_city,SUM(opening_amt),
+AVG(receive_amt),
+MAX(payment_amt) 
+FROM cust
+WHERE grade=2 GROUP BY cust_city HAVING AVG(receive_amt) > 500.00 ORDER BY SUM(opening_amt);
+
+13) SELECT cust_country,COUNT(cust_name)
+FROM cust
+GROUP BY GRADE HAVING COUNT(cust_name) > 2;
+
+14) SELECT customer.cust_name,customer.city,salesman.name,salesman.commission 
+FROM customer
+INNER JOIN salesman ON customer.salesman_id=salesman.salesman_id;
+
+15) SELECT customer.cust_name, customer.city, salesman.name , salesman.commission 
+FROM customer
+INNER JOIN salesman ON customer.salesman_id=salesman.salesman_id 
+WHERE salesman.commission>12;
+
+16) SELECT customer.cust_name,customer.city,salesman.name,salesman.city,salesman.commission 
+FROM customer
+INNER JOIN salesman ON customer.salesman_id=salesman.salesman_id 
+WHERE salesman.commission > 12 AND customer.city<>salesman.city;
+
+
+17) SELECT customer.cust_name,customer.city,customer.grade,salesman.name ,salesman.city 
+FROM customer 
+INNER JOIN salesman ON customer.salesman_id=salesman.salesman_id 
+ORDER BY customer.customer_id ASC;
+
+18) SELECT customer.cust_name,customer.city ,customer.grade,salesman.name ,salesman.city 
+FROM customer
+INNER JOIN salesman ON customer.salesman_id=salesman.salesman_id 
+WHERE customer.grade < 300 
+ORDER BY customer.customer_id ASC;
+
+19) SELECT customer.cust_name,customer.city,customer.grade, salesman.name , salesman.city 
+FROM customer 
+RIGHT OUTER JOIN salesman ON customer.salesman_id=salesman.salesman_id
+ORDER BY salesman.salesman_id;
+
+20) SELECT customer.cust_name,customer.city,customer.grade, salesman.name , salesman.city 
+FROM customer
+LEFT OUTER JOIN salesman ON salesman.salesman_id=customer.salesman_id 
+WHERE customer.grade < 300 
+ORDER BY salesman.salesman_id ASC;
