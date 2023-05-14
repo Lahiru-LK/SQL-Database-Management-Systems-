@@ -1,0 +1,122 @@
+selcet user from mysql.user;
+
+CREATE user admin_ict@localhost identified by '1234';
+GRANT ALL PRIVILEGES ON * . * to admin_ict@localhost;
+
+CREATE user teacher@localhost identified by 't1234';
+GRANT DELETE,SELECT, INSERT,UPDATE ON * . * TO teacher@localhost;
+
+CREATE user student@localhost identified by 's1234';
+GRANT SELECT ON * . * TO student@localhost;
+
+CREATE user subject_user@localhost identified by 's1234567890';
+GRANT ALL PRIVILEGES ON * . * TO subject_user@localhost;
+
+
+FLUSH PRIVILEGES;
+
+SHOW GRANTS for teacher@localhost;
+SHOW GRANTS for admin_ict@localhost;
+SHOW GRANTS for student@localhost;
+SHOW GRANTS for subject_user@localhost;
+
+DROP USER subject_user@localhost;
+
+GRANT ALL PRIVILEGES ON * . * 
+TO 'admin_ict '@localhost' 
+WITH GRANT OPTION;
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+CREATE DATABASE mytestDB;
+USE mytestDB;
+
+SHOW databases;
+
+SHOW ;
+
+
+
+CREATE TABLE Student(
+ID INT NOT NULL,
+fist_Name VARCHAR(45) NOT NULL,
+last_Name VARCHAR(45) NOT NULL,
+city VARCHAR(45) NOT NULL,
+age INT NOT NULL,
+PRIMARY KEY(ID)
+);
+
+CREATE TABLE Subject(
+subject_ID INT NOT NULL,
+subject_Name VARCHAR(45) NOT NULL,
+PRIMARY KEY(subject_ID)
+);
+
+CREATE TABLE Teacher(
+ID VARCHAR(45) NOT NULL,
+tfirst_name VARCHAR(45) NOT NULL,
+tlast_name VARCHAR(45) NOT NULL,
+tCity VARCHAR(45) NOT NULL,
+age VARCHAR(45) NOT NULL,
+PRIMARY KEY(ID)
+);
+
+
+
+DESCRIBE Student;
+DESCRIBE Subject;
+DESCRIBE Teacher;
+
+
+INSERT INTO Student (ID,fist_Name,last_Name,city,age)
+VALUES
+(11,'Kasun','Sameera','Matara',18),
+(12,'Sanduni','Chandima','Tangalle',23),
+(13,'Samudi','Eshara','Kalutara',25),
+(14,'Supun','Liyanagama','Colombo',16),
+(15,'Bhagya','Lakmini','Galle',22),
+(16,'Nuwan','Pradeep','Kandy',20);
+
+
+
+INSERT INTO Subject ( subject_ID, subject_Name) 
+VALUES (111,'Mathematics'),
+(222,'Science'),
+(333,'Java'),
+(444,'Database Management Systems'),
+(555,'Cloud Computing'),
+(666,'History');
+
+
+
+INSERT INTO Teacher(ID,tfirst_name,tlast_name,tCity,age) 
+VALUES ('01A','Kalum','Prabhath','Kegalle','25'),
+('02B','Dasuni','Sahani','Anuradhapura','30'),
+('03C','Nethma','Samadhi','Madakalapuwa','33'),
+('04D','Malshi','Pravindya','Trincomalee','45'),
+('05E','Randunu','Prabash','Hambantota','50'),
+('06F','Nerindu','Madushan','Nuwara Eliya','28');
+
+
+SELECT * FROM Student;
+SELECT * FROM Subject;
+SELECT * FROM Teacher;
+
+SELECT ID, first_Name FROM Student;
+
+SELECT ID, tfirst_name,tCity FROM Teacher;
+
+SELECT ID, first_Name FROM Student;
+
+
+
+DROP table Teacher;
+
+
+◦ DELETE FROM student;
+◦ DROP TABLE student;
+◦ DROP DATABASE mytestDB;
