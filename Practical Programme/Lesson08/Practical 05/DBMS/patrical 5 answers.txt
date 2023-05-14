@@ -1,0 +1,686 @@
+C:\Users\Dell>mysql -u root -p
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.22 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE maxtronic;
+Query OK, 1 row affected (0.12 sec)
+
+mysql>
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| demo               |
+| department         |
+| fot                |
+| ict                |
+| information_schema |
+| maxtronic          |
+| mysql              |
+| new_company        |
+| new_tec            |
+| newtec             |
+| performance_schema |
+| student            |
+| sys                |
+| technology         |
+| technology_ict     |
++--------------------+
+16 rows in set (0.21 sec)
+
+mysql> USE maxtronic;
+Database changed
+mysql> SHOW TABLES;
+Empty set (0.18 sec)
+
+mysql> CREATE USER 'admin_max'@'localhost'
+    -> ;
+Query OK, 0 rows affected (0.41 sec)
+
+mysql> GRANT ALL PRIVILEGES ON maxtronic.*
+    -> TO 'admin_max'@'localhost'
+    -> WITH GRANT OPTION;
+Query OK, 0 rows affected (0.18 sec)
+
+mysql>
+mysql> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> CREATE TABLE item(
+    -> itm_code char(4) PRIMARY KEY,
+    -> itm_description VARCHAR(25),
+    -> itm_unit_price DECIMAL(9,2),
+    -> itm_imported TINYINT(1),
+    -> itm_supplier VARCHAR(20)
+    -> );
+Query OK, 0 rows affected, 1 warning (1.98 sec)
+
+mysql>
+mysql> DESC item;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| itm_code        | char(4)      | NO   | PRI | NULL    |       |
+| itm_description | varchar(25)  | YES  |     | NULL    |       |
+| itm_unit_price  | decimal(9,2) | YES  |     | NULL    |       |
+| itm_imported    | tinyint(1)   | YES  |     | NULL    |       |
+| itm_supplier    | varchar(20)  | YES  |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+5 rows in set (0.13 sec)
+
+mysql> INSERT INTO item VALUES('IT10','Television',24000.00,1,'Sony');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> INSERT INTO item VALUES('IT11','Computer',60000.00,1,'Dell');
+Query OK, 1 row affected (0.13 sec)
+
+mysql> INSERT INTO item VALUES('IT12','Laser Printer',19000.00,1,'HP');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> INSERT INTO item VALUES('IT13','VCD Player',7599.00,1,NULL);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO item VALUES('IT15','Polisher',12000.00,1,'National');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO item VALUES('IT16','Scanner',16000.00,NULL,'HP');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO item VALUES('IT17','Refrigerator',65000.00,1,'LG');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO item VALUES('IT18','Table Lamp',2999.00,0,'Abans');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO item VALUES('IT19','Wall Clock',1200.00,1,NULL);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO item VALUES('IT20','Blender',4800.00,1,'National');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO item VALUES('IT14','Oven',7300.00,0,'Abans');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> SELECT *
+    -> FROM item;
++----------+-----------------+----------------+--------------+--------------+
+| itm_code | itm_description | itm_unit_price | itm_imported | itm_supplier |
++----------+-----------------+----------------+--------------+--------------+
+| IT10     | Television      |       24000.00 |            1 | Sony         |
+| IT11     | Computer        |       60000.00 |            1 | Dell         |
+| IT12     | Laser Printer   |       19000.00 |            1 | HP           |
+| IT13     | VCD Player      |        7599.00 |            1 | NULL         |
+| IT14     | Oven            |        7300.00 |            0 | Abans        |
+| IT15     | Polisher        |       12000.00 |            1 | National     |
+| IT16     | Scanner         |       16000.00 |         NULL | HP           |
+| IT17     | Refrigerator    |       65000.00 |            1 | LG           |
+| IT18     | Table Lamp      |        2999.00 |            0 | Abans        |
+| IT19     | Wall Clock      |        1200.00 |            1 | NULL         |
+| IT20     | Blender         |        4800.00 |            1 | National     |
++----------+-----------------+----------------+--------------+--------------+
+11 rows in set (0.00 sec)
+
+mysql> CREATE TABLE location(
+    -> loc_code CHAR(4) PRIMARY KEY,
+    -> loc_name VARCHAR(25),
+    -> loc_contact CHAR(11),
+    -> loc_address VARCHAR(300)
+    -> );
+Query OK, 0 rows affected (0.71 sec)
+
+mysql> DESC location;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| loc_code    | char(4)      | NO   | PRI | NULL    |       |
+| loc_name    | varchar(25)  | YES  |     | NULL    |       |
+| loc_contact | char(11)     | YES  |     | NULL    |       |
+| loc_address | varchar(300) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+4 rows in set (0.13 sec)
+
+mysql> INSERT INTO location VALUES('L01','Colombo','0112946058','Colombo 04');
+Query OK, 1 row affected (0.13 sec)
+
+mysql> INSERT INTO location VALUES('L02','Kalutara',NULL,'Main Street');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> INSERT INTO location VALUES('L03','Galle','0912546893',NULL);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO location VALUES('L04','Matara','0415670045','Dharmapala Mawatha');
+Query OK, 1 row affected (0.07 sec)
+
+mysql>
+mysql> SELECT *
+    -> FROM location;
++----------+----------+-------------+--------------------+
+| loc_code | loc_name | loc_contact | loc_address        |
++----------+----------+-------------+--------------------+
+| L01      | Colombo  | 0112946058  | Colombo 04         |
+| L02      | Kalutara | NULL        | Main Street        |
+| L03      | Galle    | 0912546893  | NULL               |
+| L04      | Matara   | 0415670045  | Dharmapala Mawatha |
++----------+----------+-------------+--------------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE store (
+    -> st_itm_code CHAR(4),
+    -> st_loc_code CHAR(4),
+    -> st_qty INT,
+    -> st_date DATE,
+    -> PRIMARY KEY(st_itm_code,st_loc_code),
+    -> FOREIGN KEY(st_itm_code) REFERENCES item(itm_code),
+    -> FOREIGN KEY(st_loc_code) REFERENCES location(loc_code)
+    -> );
+Query OK, 0 rows affected (1.63 sec)
+
+mysql>
+mysql> DESC store;
++-------------+---------+------+-----+---------+-------+
+| Field       | Type    | Null | Key | Default | Extra |
++-------------+---------+------+-----+---------+-------+
+| st_itm_code | char(4) | NO   | PRI | NULL    |       |
+| st_loc_code | char(4) | NO   | PRI | NULL    |       |
+| st_qty      | int     | YES  |     | NULL    |       |
+| st_date     | date    | YES  |     | NULL    |       |
++-------------+---------+------+-----+---------+-------+
+4 rows in set (0.04 sec)
+
+mysql> RI | NULL    |       |
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'RI | NULL    |       |' at line 1
+mysql>
+mysql> INSERT INTO store VALUES('IT10','L01',30,'2016-04-08');
+Query OK, 1 row affected (0.25 sec)
+
+mysql> INSERT INTO store VALUES('IT10','L03',3,'2016-04-02');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> INSERT INTO store VALUES('IT10','L04',10,'2016-04-25');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO store VALUES('IT11','L01',25,NULL);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO store VALUES('IT11','L02',12,'2016-05-07');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> INSERT INTO store VALUES('IT13','L04',60,'2016-05-09');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO store VALUES('IT16','L02',5,NULL);
+Query OK, 1 row affected (0.07 sec)
+
+mysql>
+mysql> SELECT *
+    -> FROM store;
++-------------+-------------+--------+------------+
+| st_itm_code | st_loc_code | st_qty | st_date    |
++-------------+-------------+--------+------------+
+| IT10        | L01         |     30 | 2016-04-08 |
+| IT10        | L03         |      3 | 2016-04-02 |
+| IT10        | L04         |     10 | 2016-04-25 |
+| IT11        | L01         |     25 | NULL       |
+| IT11        | L02         |     12 | 2016-05-07 |
+| IT13        | L04         |     60 | 2016-05-09 |
+| IT16        | L02         |      5 | NULL       |
++-------------+-------------+--------+------------+
+7 rows in set (0.00 sec)
+
+mysql> SHOW TABLES;
++---------------------+
+| Tables_in_maxtronic |
++---------------------+
+| item                |
+| location            |
+| store               |
++---------------------+
+3 rows in set (0.04 sec)
+
+mysql> DESC item;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| itm_code        | char(4)      | NO   | PRI | NULL    |       |
+| itm_description | varchar(25)  | YES  |     | NULL    |       |
+| itm_unit_price  | decimal(9,2) | YES  |     | NULL    |       |
+| itm_imported    | tinyint(1)   | YES  |     | NULL    |       |
+| itm_supplier    | varchar(20)  | YES  |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM item;
++----------+-----------------+----------------+--------------+--------------+
+| itm_code | itm_description | itm_unit_price | itm_imported | itm_supplier |
++----------+-----------------+----------------+--------------+--------------+
+| IT10     | Television      |       24000.00 |            1 | Sony         |
+| IT11     | Computer        |       60000.00 |            1 | Dell         |
+| IT12     | Laser Printer   |       19000.00 |            1 | HP           |
+| IT13     | VCD Player      |        7599.00 |            1 | NULL         |
+| IT14     | Oven            |        7300.00 |            0 | Abans        |
+| IT15     | Polisher        |       12000.00 |            1 | National     |
+| IT16     | Scanner         |       16000.00 |         NULL | HP           |
+| IT17     | Refrigerator    |       65000.00 |            1 | LG           |
+| IT18     | Table Lamp      |        2999.00 |            0 | Abans        |
+| IT19     | Wall Clock      |        1200.00 |            1 | NULL         |
+| IT20     | Blender         |        4800.00 |            1 | National     |
++----------+-----------------+----------------+--------------+--------------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM location;
++----------+----------+-------------+--------------------+
+| loc_code | loc_name | loc_contact | loc_address        |
++----------+----------+-------------+--------------------+
+| L01      | Colombo  | 0112946058  | Colombo 04         |
+| L02      | Kalutara | NULL        | Main Street        |
+| L03      | Galle    | 0912546893  | NULL               |
+| L04      | Matara   | 0415670045  | Dharmapala Mawatha |
++----------+----------+-------------+--------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM store;
++-------------+-------------+--------+------------+
+| st_itm_code | st_loc_code | st_qty | st_date    |
++-------------+-------------+--------+------------+
+| IT10        | L01         |     30 | 2016-04-08 |
+| IT10        | L03         |      3 | 2016-04-02 |
+| IT10        | L04         |     10 | 2016-04-25 |
+| IT11        | L01         |     25 | NULL       |
+| IT11        | L02         |     12 | 2016-05-07 |
+| IT13        | L04         |     60 | 2016-05-09 |
+| IT16        | L02         |      5 | NULL       |
++-------------+-------------+--------+------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT itm_description, itm_unit_price
+    -> FROM item;
++-----------------+----------------+
+| itm_description | itm_unit_price |
++-----------------+----------------+
+| Television      |       24000.00 |
+| Computer        |       60000.00 |
+| Laser Printer   |       19000.00 |
+| VCD Player      |        7599.00 |
+| Oven            |        7300.00 |
+| Polisher        |       12000.00 |
+| Scanner         |       16000.00 |
+| Refrigerator    |       65000.00 |
+| Table Lamp      |        2999.00 |
+| Wall Clock      |        1200.00 |
+| Blender         |        4800.00 |
++-----------------+----------------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT st_itm_code
+    -> FROM store;
++-------------+
+| st_itm_code |
++-------------+
+| IT10        |
+| IT11        |
+| IT11        |
+| IT16        |
+| IT10        |
+| IT10        |
+| IT13        |
++-------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT st_itm_code
+    -> FROM store;
++-------------+
+| st_itm_code |
++-------------+
+| IT10        |
+| IT11        |
+| IT13        |
+| IT16        |
++-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT itm_description, itm_unit_price
+    -> FROM item
+    -> ORDER BY itm_unit_price DESC;
++-----------------+----------------+
+| itm_description | itm_unit_price |
++-----------------+----------------+
+| Refrigerator    |       65000.00 |
+| Computer        |       60000.00 |
+| Television      |       24000.00 |
+| Laser Printer   |       19000.00 |
+| Scanner         |       16000.00 |
+| Polisher        |       12000.00 |
+| VCD Player      |        7599.00 |
+| Oven            |        7300.00 |
+| Blender         |        4800.00 |
+| Table Lamp      |        2999.00 |
+| Wall Clock      |        1200.00 |
++-----------------+----------------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT st_itm_code, st_qty
+    -> FROM store
+    -> ORDER BY st_itm_code ASC, st_qty DESC;
++-------------+--------+
+| st_itm_code | st_qty |
++-------------+--------+
+| IT10        |     30 |
+| IT10        |     10 |
+| IT10        |      3 |
+| IT11        |     25 |
+| IT11        |     12 |
+| IT13        |     60 |
+| IT16        |      5 |
++-------------+--------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT st_itm_code, st_qty
+    -> FROM store
+    -> ORDER BY st_itm_code, st_qty DESC;
++-------------+--------+
+| st_itm_code | st_qty |
++-------------+--------+
+| IT10        |     30 |
+| IT10        |     10 |
+| IT10        |      3 |
+| IT11        |     25 |
+| IT11        |     12 |
+| IT13        |     60 |
+| IT16        |      5 |
++-------------+--------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM item
+    -> WHERE itm_unit_price > 20000.00;
++----------+-----------------+----------------+--------------+--------------+
+| itm_code | itm_description | itm_unit_price | itm_imported | itm_supplier |
++----------+-----------------+----------------+--------------+--------------+
+| IT10     | Television      |       24000.00 |            1 | Sony         |
+| IT11     | Computer        |       60000.00 |            1 | Dell         |
+| IT17     | Refrigerator    |       65000.00 |            1 | LG           |
++----------+-----------------+----------------+--------------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT st_itm_code
+    -> FROM store
+    -> WHERE st_loc_code = 'L01';
++-------------+
+| st_itm_code |
++-------------+
+| IT10        |
+| IT11        |
++-------------+
+2 rows in set (0.08 sec)
+
+mysql>
+mysql> SELECT itm_description
+    -> FROM item
+    -> WHERE itm_description LIKE 'T%';
++-----------------+
+| itm_description |
++-----------------+
+| Television      |
+| Table Lamp      |
++-----------------+
+2 rows in set (0.02 sec)
+
+mysql> SELECT itm_description
+    -> FROM item
+    -> WHERE itm_description LIKE 't%';
++-----------------+
+| itm_description |
++-----------------+
+| Television      |
+| Table Lamp      |
++-----------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT itm_description
+    -> FROM item
+    -> WHERE itm_description LIKE '%er';
++-----------------+
+| itm_description |
++-----------------+
+| Computer        |
+| Laser Printer   |
+| VCD Player      |
+| Polisher        |
+| Scanner         |
+| Blender         |
++-----------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM item
+    -> WHERE itm_supplier IN ("Dell","HP","LG");
++----------+-----------------+----------------+--------------+--------------+
+| itm_code | itm_description | itm_unit_price | itm_imported | itm_supplier |
++----------+-----------------+----------------+--------------+--------------+
+| IT11     | Computer        |       60000.00 |            1 | Dell         |
+| IT12     | Laser Printer   |       19000.00 |            1 | HP           |
+| IT16     | Scanner         |       16000.00 |         NULL | HP           |
+| IT17     | Refrigerator    |       65000.00 |            1 | LG           |
++----------+-----------------+----------------+--------------+--------------+
+4 rows in set (0.10 sec)
+
+mysql> SELECT itm_code, itm_description
+    -> FROM item
+    -> WHERE itm_supplier IS NOT NULL;
++----------+-----------------+
+| itm_code | itm_description |
++----------+-----------------+
+| IT10     | Television      |
+| IT11     | Computer        |
+| IT12     | Laser Printer   |
+| IT14     | Oven            |
+| IT15     | Polisher        |
+| IT16     | Scanner         |
+| IT17     | Refrigerator    |
+| IT18     | Table Lamp      |
+| IT20     | Blender         |
++----------+-----------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT itm_code, itm_description
+    -> FROM item
+    -> WHERE itm_supplier IS NULL;
++----------+-----------------+
+| itm_code | itm_description |
++----------+-----------------+
+| IT13     | VCD Player      |
+| IT19     | Wall Clock      |
++----------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT itm_description, st_qty, loc_name
+    -> FROM item, location,store
+    -> WHERE itm_unit_price > 20000.00;
++-----------------+--------+----------+
+| itm_description | st_qty | loc_name |
++-----------------+--------+----------+
+| Television      |     30 | Colombo  |
+| Computer        |     30 | Colombo  |
+| Refrigerator    |     30 | Colombo  |
+| Television      |     30 | Kalutara |
+| Computer        |     30 | Kalutara |
+| Refrigerator    |     30 | Kalutara |
+| Television      |     30 | Galle    |
+| Computer        |     30 | Galle    |
+| Refrigerator    |     30 | Galle    |
+| Television      |     30 | Matara   |
+| Computer        |     30 | Matara   |
+| Refrigerator    |     30 | Matara   |
+| Television      |      3 | Colombo  |
+| Computer        |      3 | Colombo  |
+| Refrigerator    |      3 | Colombo  |
+| Television      |      3 | Kalutara |
+| Computer        |      3 | Kalutara |
+| Refrigerator    |      3 | Kalutara |
+| Television      |      3 | Galle    |
+| Computer        |      3 | Galle    |
+| Refrigerator    |      3 | Galle    |
+| Television      |      3 | Matara   |
+| Computer        |      3 | Matara   |
+| Refrigerator    |      3 | Matara   |
+| Television      |     10 | Colombo  |
+| Computer        |     10 | Colombo  |
+| Refrigerator    |     10 | Colombo  |
+| Television      |     10 | Kalutara |
+| Computer        |     10 | Kalutara |
+| Refrigerator    |     10 | Kalutara |
+| Television      |     10 | Galle    |
+| Computer        |     10 | Galle    |
+| Refrigerator    |     10 | Galle    |
+| Television      |     10 | Matara   |
+| Computer        |     10 | Matara   |
+| Refrigerator    |     10 | Matara   |
+| Television      |     25 | Colombo  |
+| Computer        |     25 | Colombo  |
+| Refrigerator    |     25 | Colombo  |
+| Television      |     25 | Kalutara |
+| Computer        |     25 | Kalutara |
+| Refrigerator    |     25 | Kalutara |
+| Television      |     25 | Galle    |
+| Computer        |     25 | Galle    |
+| Refrigerator    |     25 | Galle    |
+| Television      |     25 | Matara   |
+| Computer        |     25 | Matara   |
+| Refrigerator    |     25 | Matara   |
+| Television      |     12 | Colombo  |
+| Computer        |     12 | Colombo  |
+| Refrigerator    |     12 | Colombo  |
+| Television      |     12 | Kalutara |
+| Computer        |     12 | Kalutara |
+| Refrigerator    |     12 | Kalutara |
+| Television      |     12 | Galle    |
+| Computer        |     12 | Galle    |
+| Refrigerator    |     12 | Galle    |
+| Television      |     12 | Matara   |
+| Computer        |     12 | Matara   |
+| Refrigerator    |     12 | Matara   |
+| Television      |     60 | Colombo  |
+| Computer        |     60 | Colombo  |
+| Refrigerator    |     60 | Colombo  |
+| Television      |     60 | Kalutara |
+| Computer        |     60 | Kalutara |
+| Refrigerator    |     60 | Kalutara |
+| Television      |     60 | Galle    |
+| Computer        |     60 | Galle    |
+| Refrigerator    |     60 | Galle    |
+| Television      |     60 | Matara   |
+| Computer        |     60 | Matara   |
+| Refrigerator    |     60 | Matara   |
+| Television      |      5 | Colombo  |
+| Computer        |      5 | Colombo  |
+| Refrigerator    |      5 | Colombo  |
+| Television      |      5 | Kalutara |
+| Computer        |      5 | Kalutara |
+| Refrigerator    |      5 | Kalutara |
+| Television      |      5 | Galle    |
+| Computer        |      5 | Galle    |
+| Refrigerator    |      5 | Galle    |
+| Television      |      5 | Matara   |
+| Computer        |      5 | Matara   |
+| Refrigerator    |      5 | Matara   |
++-----------------+--------+----------+
+84 rows in set (0.00 sec)
+
+mysql> SELECT itm_description, st_qty, loc_name
+    -> FROM item, location,store
+    -> WHERE st_itm_code = itm_code AND
+    -> st_loc_code = loc_code AND
+    -> itm_unit_price > 20000.00;
++-----------------+--------+----------+
+| itm_description | st_qty | loc_name |
++-----------------+--------+----------+
+| Television      |     30 | Colombo  |
+| Computer        |     25 | Colombo  |
+| Computer        |     12 | Kalutara |
+| Television      |      3 | Galle    |
+| Television      |     10 | Matara   |
++-----------------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT st_itm_code, loc_name, st_qty
+    -> FROM item, location, store
+    -> WHERE st_loc_code = loc_code AND
+    -> st_itm_code = itm_code;
++-------------+----------+--------+
+| st_itm_code | loc_name | st_qty |
++-------------+----------+--------+
+| IT10        | Colombo  |     30 |
+| IT11        | Colombo  |     25 |
+| IT11        | Kalutara |     12 |
+| IT16        | Kalutara |      5 |
+| IT10        | Galle    |      3 |
+| IT10        | Matara   |     10 |
+| IT13        | Matara   |     60 |
++-------------+----------+--------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT itm_description, loc_name
+    -> FROM item, location, store
+    -> WHERE st_loc_code = loc_code AND
+    -> st_itm_code = itm_code;
++-----------------+----------+
+| itm_description | loc_name |
++-----------------+----------+
+| Television      | Colombo  |
+| Computer        | Colombo  |
+| Computer        | Kalutara |
+| Scanner         | Kalutara |
+| Television      | Galle    |
+| Television      | Matara   |
+| VCD Player      | Matara   |
++-----------------+----------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*)
+    -> FROM item;
++----------+
+| COUNT(*) |
++----------+
+|       11 |
++----------+
+1 row in set (0.11 sec)
+
+mysql> SELECT COUNT(*) AS 'Item Count'
+    -> FROM item;
++------------+
+| Item Count |
++------------+
+|         11 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT SUM(st_qty) AS 'Total Count'
+    -> FROM store;
++-------------+
+| Total Count |
++-------------+
+|         145 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql>
+
+CREATE VIEW view_name AS
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;

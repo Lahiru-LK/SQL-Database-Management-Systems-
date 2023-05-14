@@ -1,0 +1,195 @@
+SHOW DATABASES;
+
+CREATE DATABASE maxtronic;
+
+SHOW DATABASES;
+
+USE maxtronic;
+
+SELECT USER FROM mysql.user;
+
+DROP USER MaxElectronics@localhost;
+
+CREATE USER admin_max@localhost identified by '123admin';
+CREATE USER emp_max@localhost identified by '123emp';
+CREATE USER user_max@localhost identified by '123user';
+
+GRANT ALL PRIVILEGES ON *.*
+TO 'admin_max'@'localhost'
+WITH GRANT OPTION;
+
+GRANT SELECT,INSERT,UPDATE,DELETE ON *.*
+TO 'emp_max'@'localhost'
+WITH GRANT OPTION;
+
+GRANT SELECT ON *.*
+TO 'user_max'@'localhost'
+WITH GRANT OPTION;
+
+
+CREATE TABLE item(
+itm_code CHAR(4) PRIMARY KEY NOT NULL,
+itm_description VARCHAR(25)NOT NULL,
+itm_unit_price DECIMAL(9,2) NOT NULL,
+itm_imported TINYINT(1) NULL,
+itm_supplier VARCHAR(20) NULL
+);
+
+DESC item;
+DROP TABLE item;
+
+
+INSERT INTO item(
+itm_code,itm_description,itm_unit_price,itm_imported,itm_supplier)
+VALUES
+('IT10','Television',24000.00,1,'Sony'),
+('IT11','Computer',60000.00,1,'Dell'),
+('IT12','Laser Printer','19000.00',1,'Hp'),
+('IT13','VCD Player','7599.00',1,''),
+('IT15','Polisher','12000.00',1,'National'),
+('IT16','Scanner','16000.00',NULL,'Hp'),
+('IT17','Refrigerator',65000.00,1,'LG'),
+('IT18','Table Lamp',2999.90,0,'Abans'),
+('IT19','Wall Clock','1200.00',1,''),
+('IT20','Blender','4800.00',1,'National'),
+('IT14','Oven',7300.00,0,'Abans')
+;
+
+SELECT * FROM item;
+
+DELETE FROM item;
+
+
+CREATE TABLE location(
+loc_code CHAR(4) PRIMARY KEY NOT NULL,
+loc_name VARCHAR (25) NOT NULL,
+loc_contact CHAR(11) NULL,
+loc_address VARCHAR(300) NULL
+);
+
+DESC location;
+DROP TABLE location;
+
+INSERT INTO location(
+loc_code,loc_name,loc_contact,loc_address)
+VALUES
+('L01','Colombo','0112946058','Colombo 04'),
+('L02','Kalutara','','Main Street'),
+('L03','Galle','0912546893',''),
+('L04','Matara','0415670045','Dharmapala Mawatha')
+;
+
+SELECT * FROM location;
+
+
+CREATE TABLE store(
+st_item_code CHAR(10)NOT NULL,
+st_location_code VARCHAR (10) NOT NULL,
+st_qty INT NOT NULL,
+st_date DATE NULL,
+PRIMARY KEY(st_item_code,st_location_code)
+);
+
+DESC store;
+
+INSERT INTO store(
+st_item_code,st_location_code,st_qty,st_date)
+VALUES
+('IT10','L01',30,'2016-04-08'),
+('IT10','L03',3,'2016-04-02'),
+('IT10','L04',10,'2016-04-25'),
+('IT11','L01',25,NULL),
+('IT11','L02',12,'2016-05-07'),
+('IT13','L04',60,'2016-05-09'),
+('IT16','L02',5,NULL)
+;
+
+SELECT * FROM store;
+
+
+DROP TABLE store;
+
+
+
+SHOW TABLES;
+
+DESC item;
+
+SELECT * FROM location;
+
+
+SELECT itm_description,itm_unit_price 
+FROM item
+;
+
+SELECT st_item_code
+FROM store
+;
+
+SELECT  DISTINCT *
+FROM  store;
+
+
+SELECT  DISTINCT *
+FROM  store;
+
+SELECT  DISTINCT st_item_code
+FROM  store;
+
+
+SELECT itm_description,itm_unit_price
+FROM item
+ORDER BY itm_unit_price DESC;
+
+
+SELECT st_item_code,st_qty
+FROM store
+ORDER BY st_item_code ASC,st_qty DESC;
+
+SELECT * FROM item
+WHERE itm_unit_price > 200000;
+
+
+SELECT st_item_code FROM store
+WHERE st_location_code = 'L01';
+
+
+
+SELECT itm_description FROM item
+WHERE itm_description LIKE 't%';
+
+SELECT itm_description FROM item
+WHERE itm_description LIKE '%er';
+
+
+SELECT itm_description FROM item
+WHERE itm_description LIKE '%er';
+
+
+SELECT * FROM item
+WHERE itm_supplier ='Dell' OR itm_supplier = 'HP' OR itm_supplier ='LG';
+
+
+SELECT itm_code,itm_description 
+FROM item
+WHERE itm_imported IS NOT NULL;
+
+SELECT itm_code,itm_description 
+FROM item
+WHERE itm_supplier=' ';
+
+
+
+
+SELECT DISTINCT itm_description,st_qty,loc_name
+FROM location,store,item
+WHERE itm_unit_price > 20000;
+
+
+
+SELECT DISTINCT st_item_code,loc_name,st_qty
+FROM location,store,item;
+
+
+
+  
