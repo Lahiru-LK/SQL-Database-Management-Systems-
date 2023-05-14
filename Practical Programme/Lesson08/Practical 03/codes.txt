@@ -1,0 +1,237 @@
+CREATE DATABASE Practical03;
+
+SHOW DATABASES;
+
+USE Practical03;
+
+
+CREATE TABLE City(
+City_ID VARCHAR(10) NOT NULL PRIMARY KEY,
+City_Name VARCHAR(30),
+Region_ID VARCHAR(10)NOT NULL
+);
+
+
+DESCRIBE City;
+
+ALTER TABLE City
+MODIFY City_Name VARCHAR(30) NOT NULL;
+
+
+CREATE TABLE Jobs(
+Job_ID VARCHAR(10) NOT NULL PRIMARY KEY,
+Job_title VARCHAR(50),
+Min_Salary DECIMAL(6.0), 
+Max_Salary DECIMAL(6,0),
+CHECK (Max_Salary>25000)
+);
+
+
+
+ALTER TABLE City
+MODIFY City_Name ENUM ("Colombo","Galle","Matara");
+
+CREATE TABLE Job_History(
+Employee_ID VARCHAR(20) NOT NULL PRIMARY KEY,
+Start_Date DATE,
+End_Date DATE,
+CHECK(End_Date LIKE '--/--/----'),
+Job_ID  VARCHAR(10) NOT NULL,
+Department_ID VARCHAR(10) NOT NULL
+);
+
+
+ALTER TABLE City
+ADD UNIQUE (City_ID);
+
+
+DROP TABLE Jobs;
+
+DROP TABLE Job_History;
+
+
+CREATE TABLE IF NOT EXISTS Jobs(
+Job_ID VARCHAR(10) NOT NULL PRIMARY KEY,
+Job_title VARCHAR(50) NOT NULL DEFAULT '' ,
+Min_Salary DECIMAL(6,0) DEFAULT 8000, 
+Max_Salary DECIMAL(6,0) DEFAULT NULL, 
+UNIQUE(Job_ID)
+);
+
+
+DROP TABLE City;
+
+CREATE TABLE City(
+City_ID VARCHAR(10) NOT NULL PRIMARY KEY,
+City_Name VARCHAR(30)NOT NULL,
+Region_ID VARCHAR(10) NOT NULL,
+UNIQUE(City_ID) 
+);
+
+
+CREATE TABLE Countries(
+City_ID VARCHAR(10) NOT NULL PRIMARY KEY,
+City_Name VARCHAR(30)NOT NULL,
+Region_ID VARCHAR(10) NOT NULL,
+UNIQUE(City_ID,Region_ID) 
+);
+
+
+CREATE TABLE Job_History(
+Employee_ID VARCHAR(10) NOT NULL PRIMARY KEY,
+Start_Date DATETIME,
+End_Date DATETIME,
+Job_ID VARCHAR(10) NOT NULL,
+FOREIGN KEY (Job_ID) REFERENCES Jobs(Job_ID)
+);
+
+
+CREATE TABLE Managers(
+Manager_ID DECIMAL(6,0) NOT NULL PRIMARY KEY,
+MFirst_Name VARCHAR(20),
+MLast_Name VARCHAR(20),
+UNIQUE(Manager_ID) 
+);
+
+CREATE TABLE Departments(
+Department_ID DECIMAL(4,0) NOT NULL PRIMARY KEY,
+Department_Name VARCHAR(30) NOT NULL,
+Manager_ID DECIMAL(6,0),
+Location_ID DECIMAL(4,0),
+FOREIGN KEY (Manager_ID) REFERENCES Managers(Manager_ID),
+UNIQUE(Department_ID) 
+);
+
+
+CREATE TABLE Empolyees(
+Employee_ID VARCHAR(10) NOT NULL PRIMARY KEY,
+First_Name VARCHAR(20),
+Last_Name VARCHAR(20),
+Email VARCHAR(60),
+Phone_Number INT,
+Hire_Date DATETIME,
+Job_ID VARCHAR(10) NOT NULL,
+Salary INT,
+Commission INT,
+Manager_ID DECIMAL(6,0),
+Department_ID DECIMAL(4,0),
+UNIQUE(Employee_ID),
+FOREIGN KEY (Manager_ID) REFERENCES Managers(Manager_ID),
+FOREIGN KEY (Department_ID) REFERENCES Departments(Department_ID)
+);
+
+
+DROP TABLE Empolyees,Departments,Managers;
+
+DROP TABLE Managers;
+
+
+
+CREATE TABLE EmployeeInfo(
+EmpID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+EmpFname VARCHAR(30) NOT NULL,
+EmpLname VARCHAR(30) NOT NULL,
+Department VARCHAR(30)NOT NULL,
+Project VARCHAR(10) NOT NULL,
+Address VARCHAR(50) NOT NULL,
+DOB DATE NOT NULL,
+Gender VARCHAR(10) NOT NULL,
+UNIQUE(EmpID)
+);
+
+
+INSERT INTO EmployeeInfo
+(EmpFname,EmpLname,Department,Project,Address,DOB,Gender)
+VALUES
+("Sanjay","Mehra","HR","P1","Hyderabad (HYD)","1976/12/01","M"),
+("Ananya","Mishra","Admin","P2","Delhi (DEL)","1968/05/02","F"),
+("Rohan","Diwan","Account","P3","Mumbaz (BOM)","1980/01/01","M"),
+("Sonia","Kulkarni","HR","P1","Hyderabad (HYD)","1992/05/02","F"),
+("Ankit","Kapoor","Admin","P2","Delhi (DEL)","1994/07/03","M");
+
+
+
+SELECT EmpFname
+FROM EmployeeInfo;
+
+
+SELECT CURDATE();
+
+
+SELECT SUBSTRING(EmpLname, 1, 4) AS ExtractString
+FROM EmployeeInfo;
+
+SELECT EmpFname
+FROM EmployeeInfo
+WHERE EmpFname OR EmpLname="S";
+ 
+SELECT EmpFname
+FROM EmployeeInfo
+WHERE EmpFname ="Sanjay";
+ 
+SELECT EmpFname
+FROM EmployeeInfo
+WHERE EmpFname OR EmpLname LIKE "S%";
+
+
+SELECT EmpFname
+FROM EmployeeInfo
+WHERE EmpFname OR EmpLname LIKE "%n";
+
+
+SELECT *
+FROM EmployeeInfo
+ORDER BY EmpLname ASC Department DESC;
+
+SELECT *
+FROM EmployeeInfo
+ORDER BY EmpLname DESC;
+
+
+
+SELECT *
+FROM EmployeeInfo
+ORDER BY EmpLname DESC , Department ASC ;
+
+SELECT SUBSTRING(EmpLname, 1, 5) AS ExtractString
+FROM EmployeeInfo
+WHERE EmpLname LIKE "%A";
+
+
+SELECT *
+FROM EmployeeInfo
+WHERE NOT EmpFname  ="Sanjay";
+ 
+
+SELECT SUBSTRING(Address,0,CHARINDEX(‘ ‘,Address))Address FROM [sampleDB].[dbo].[EmployeeDetails];
+
+
+
+SELECT *
+FROM EmployeeInfo
+WHERE EmpFname  NOT IN ("Sanjay" , "Sonia");
+
+
+SELECT *
+FROM EmployeeInfo
+WHERE Address LIKE "Delhi(DEL)";
+
+
+SELECT COUNT(ProductID) AS NumberOfProducts FROM Products;
+
+
+
+SELECT COUNT(*),
+Gender FROM EmployeeInfo
+WHERE DOB BETWEEN '1970/05/02' AND '1975/12/31' 
+GROUP BY Gender;
+
+SELECT COUNT(*),
+Gender FROM EmployeeInfo
+WHERE DOB BETWEEN '1970/05/02' AND '1994/12/31';
+GROUP BY Gender;
+
+SELECT MID(Address,1,LOCATE('(',Address)) FROM EmployeeInfo;
+SELECT MID(Address,1,LOCATE(' ',Address)) FROM EmployeeInfo;
+
+
